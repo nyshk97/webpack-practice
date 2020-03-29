@@ -5,26 +5,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 module.exports = {
+  mode: 'development',
+  devtool: 'source-map',
   entry: './src/javascripts/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: './javascripts/main.js',
   },
   module: {
-    // rules: [  
-    //   {
-    //     test: /\.js/,
-    //     exclude: /node_modules/,
-    //     use: [
-    //       {
-    //         loader: 'babel-loader',
-    //         options: {
-    //           presets: ['@babel/preset-env'],
-    //         },
-    //       }
-    //     ],
-    //   },
-    // ],
     rules: [
       {
         test: /\.js/,
@@ -50,6 +38,9 @@ module.exports = {
           },
           {
             loader: 'css-loader',
+            options: {
+              sourceMap: false,
+            }
           },
           {
             loader: 'sass-loader',
@@ -57,7 +48,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg)/,
+        test: /\.(png|jpg|jpeg)/,
         use: [
           {
             loader: 'file-loader',
@@ -66,6 +57,15 @@ module.exports = {
               name: 'images/[name].[ext]',
             },
           },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjepeg: {
+                progressive: true,
+                quality: 65,
+              }
+            }
+          }
         ],
       },
       {
